@@ -1,16 +1,28 @@
 FROM python:3.10.1
 
-ENV PYTHONBUFFERED=1
+ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
+# Only update packages
+RUN apt-get update
 
-RUN pip install --upgrade pip
+# Set working directory
+WORKDIR /docker_db
 
+# copy requirements files
+COPY ./requirements.txt /project/requirements.txt
 
-WORKDIR /DOCKER_DB
+# install requirements
+RUN pip install -r requirements.txt
 
-COPY ./requirements.txt  /DOCKER_DB/requirements.txt
+# Copy codebase
+COPY . /docker_db/
 
-RUN pip install -r /DOCKER_DB/requirements.txt
+# create a new user
+RUN adduser --disabled-password --gecos '' kodecamp
 
-COPY ./DOCKER_DB.py  /DOCKER_DB/DOCKER_DB.py
+# Set user as the owner of directory
+RUN chown -R kodecamp:kodecamp /docker_db
+
+# Set user to be kodecamp
+USER kodecamp
