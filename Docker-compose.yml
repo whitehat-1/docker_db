@@ -3,10 +3,10 @@ version: '3'
 services:
   project:
     build:
-      context: ./project
+      context: ./docker_db
       dockerfile: Dockerfile
     volumes:
-      - ./project/:/project/
+      - ./docker_db/:/docker_db/
       - /var/run/docker.sock:/var/run/docker.sock
     command: uvicorn server:app --reload --workers 1 --host 0.0.0.0 --port 8080
     env_file:
