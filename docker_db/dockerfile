@@ -10,7 +10,7 @@ RUN apt-get update
 WORKDIR /docker_db
 
 # copy requirements files
-COPY ./requirements.txt /project/requirements.txt
+COPY ./requirements.txt /docker_db/requirements.txt
 
 # install requirements
 RUN pip install -r requirements.txt
